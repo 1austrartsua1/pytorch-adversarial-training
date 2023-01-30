@@ -21,6 +21,9 @@ from utils import makedirs, create_logger, tensor2cuda, numpy2cuda, evaluate, sa
 
 from argument import parser, print_args
 
+
+
+
 class Trainer():
     def __init__(self, args, logger, attack):
         self.args = args

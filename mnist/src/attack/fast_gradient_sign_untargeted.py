@@ -101,8 +101,11 @@ class FastGradientSignUntargeted():
 
                 grads = torch.autograd.grad(loss, x, grad_outputs=grad_outputs, 
                         only_inputs=True)[0]
-
-                x.data += self.alpha * torch.sign(grads.data) 
+                
+                if self._type == 'linf':
+                    x.data += self.alpha * torch.sign(grads.data) 
+                else:
+                    x.data += self.alpha * grads.data
 
                 # the adversaries' pixel value should within max_x and min_x due 
                 # to the l_infinity / l2 restriction
