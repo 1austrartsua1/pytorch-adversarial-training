@@ -16,7 +16,7 @@ sys.path.append("./src/utils")
 sys.path.append("./src/visualization")
 
 from model import Model
-from attack import FastGradientSignUntargeted
+from attack import UntargetedFirstOrderAttack
 from utils import makedirs, create_logger, tensor2cuda, numpy2cuda, evaluate, save_model
 
 from argument import parser, print_args
@@ -179,7 +179,7 @@ def main(args):
 
     model = Model(i_c=1, n_c=10)
 
-    attack = FastGradientSignUntargeted(model, 
+    attack = UntargetedFirstOrderAttack(model, 
                                         args.epsilon, 
                                         args.alpha, 
                                         min_val=0, 

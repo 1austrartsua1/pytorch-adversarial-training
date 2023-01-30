@@ -1,1 +1,1 @@
-from .fast_gradient_sign_untargeted import FastGradientSignUntargeted
+from .firstOrderAttack import UntargetedFirstOrderAttack
