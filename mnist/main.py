@@ -7,6 +7,14 @@ from torch.utils.data import DataLoader
 import torchvision as tv
 
 from time import time
+
+import sys
+sys.path.append("./src")
+sys.path.append("./src/model")
+sys.path.append("./src/attack")
+sys.path.append("./src/utils")
+sys.path.append("./src/visualization")
+
 from model import Model
 from attack import FastGradientSignUntargeted
 from utils import makedirs, create_logger, tensor2cuda, numpy2cuda, evaluate, save_model
@@ -28,8 +36,11 @@ class Trainer():
     def train(self, model, tr_loader, va_loader=None, adv_train=False):
         args = self.args
         logger = self.logger
-
-        opt = torch.optim.Adam(model.parameters(), args.learning_rate)
+        
+        if args.optimizer == 'ADAM':
+            opt = torch.optim.Adam(model.parameters(), args.learning_rate)
+        else:
+            opt = torch.optim.SGD(model.parameters(), args.learning_rate)
 
         _iter = 0
 
@@ -205,6 +216,9 @@ def main(args):
 
 if __name__ == '__main__':
     args = parser()
+    
+    print(args)
+
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 

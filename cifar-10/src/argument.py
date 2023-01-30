@@ -38,6 +38,8 @@ def parser():
         help='number of iteration to save adversaries')
     parser.add_argument('--perturbation_type', '-p', choices=['linf', 'l2'], default='linf', 
         help='the type of the perturbation (linf or l2)')
+    parser.add_argument('--optimizer', choices=['ADAM', 'SGD'], default='SGD', 
+        help='optimizer (ADAM or SGD)')
     
     parser.add_argument('--adv_train', action='store_true')
 
