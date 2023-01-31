@@ -18,7 +18,7 @@ sys.path.append("./src/visualization")
 from model import Model
 from attack import UntargetedFirstOrderAttack
 from utils import makedirs, create_logger, tensor2cuda, numpy2cuda, evaluate, save_model
-from advCacheLoader import AdversarialCache
+from advCacheDataset import AdversarialCache
 
 from argument import parser, print_args
 

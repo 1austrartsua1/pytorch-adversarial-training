@@ -40,7 +40,12 @@ def parser():
     parser.add_argument('--optimizer', choices=['ADAM', 'SGD'], default='SGD', 
         help='optimizer (ADAM or SGD)')
     
-    parser.add_argument('--cache_adversary', action='store_true')
+    parser.add_argument('--cache_adversary', action='store_true',help='with this option, the adversarial perturbation for \
+                       each image in the dataset is cached. Rather than random initialization, the adversary starts at the previous \
+                       cached value')
+    parser.add_argument('--signed_attack', action='store_true',help='adversary uses the sign of the gradient with this option. Only \
+                        available with linf perturbation')
+    
     parser.add_argument('--adv_train', action='store_true')
 
     return parser.parse_args()

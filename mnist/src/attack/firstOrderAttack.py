@@ -52,7 +52,7 @@ class UntargetedFirstOrderAttack():
         Fast gradient sign untargeted adversarial attack, minimizes the initial class activation
         with iterative grad sign updates
     """
-    def __init__(self, model, epsilon, alpha, min_val, max_val, max_iters, _type='linf'):
+    def __init__(self, model, epsilon, alpha, min_val, max_val, max_iters, _type='linf',signedAttack=False):
         self.model = model
         # self.model.eval()
 
@@ -68,6 +68,7 @@ class UntargetedFirstOrderAttack():
         self.max_iters = max_iters
         # The perturbation of epsilon
         self._type = _type
+        self.signedAttack = signedAttack
         
     def perturb(self, original_images, labels, reduction4loss='mean', random_start=False):
         # original_images: values are within self.min_val and self.max_val
@@ -102,7 +103,7 @@ class UntargetedFirstOrderAttack():
                 grads = torch.autograd.grad(loss, x, grad_outputs=grad_outputs, 
                         only_inputs=True)[0]
                 
-                if self._type == 'linf':
+                if (self._type == 'linf') and self.signedAttack:
                     x.data += self.alpha * torch.sign(grads.data) 
                 else:
                     x.data += self.alpha * grads.data
