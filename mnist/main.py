@@ -18,9 +18,9 @@ sys.path.append("./src/visualization")
 from model import Model
 from attack import UntargetedFirstOrderAttack
 from utils import makedirs, create_logger, tensor2cuda, numpy2cuda, evaluate, save_model
+from advCacheLoader import AdversarialCache
 
 from argument import parser, print_args
-
 
 
 
@@ -50,8 +50,15 @@ class Trainer():
         begin_time = time()
 
         for epoch in range(1, args.max_epoch+1):
-            for data, label in tr_loader:
-                data, label = tensor2cuda(data), tensor2cuda(label)
+            for package in tr_loader:
+                data = package[0]
+                label = package[1]
+
+                if args.cache_adversary:
+                    adv = package[2]
+                    adv = tensor2cuda(adv)
+                    
+                data, label = tensor2cuda(data), tensor2cuda(label)                
 
                 if adv_train:
                     # When training, the adversarial example is created from a random 
@@ -198,7 +205,18 @@ def main(args):
                                        transform=tv.transforms.ToTensor(), 
                                        download=True)
 
+        if args.cache_adversary:
+            tr_dataset = AdversarialCache(tr_dataset)
+            
+
+
+        
         tr_loader = DataLoader(tr_dataset, batch_size=args.batch_size, shuffle=True, num_workers=4)
+
+
+                
+           
+        
 
         # evaluation during training
         te_dataset = tv.datasets.MNIST(args.data_root, 

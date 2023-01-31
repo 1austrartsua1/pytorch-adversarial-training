@@ -40,6 +40,7 @@ def parser():
     parser.add_argument('--optimizer', choices=['ADAM', 'SGD'], default='SGD', 
         help='optimizer (ADAM or SGD)')
     
+    parser.add_argument('--cache_adversary', action='store_true')
     parser.add_argument('--adv_train', action='store_true')
 
     return parser.parse_args()
